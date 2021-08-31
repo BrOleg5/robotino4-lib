@@ -1,0 +1,2 @@
+/usr/bin/ar qc librobotino4lib.a  CMakeFiles/robotino4lib.dir/robotino4.cpp.o
+/usr/bin/ranlib librobotino4lib.a

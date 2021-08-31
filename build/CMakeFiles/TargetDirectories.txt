@@ -1,0 +1,8 @@
+/home/oleg/Project/robotino4-lib/build/CMakeFiles/rebuild_cache.dir
+/home/oleg/Project/robotino4-lib/build/CMakeFiles/edit_cache.dir
+/home/oleg/Project/robotino4-lib/build/lib/CMakeFiles/rebuild_cache.dir
+/home/oleg/Project/robotino4-lib/build/lib/CMakeFiles/edit_cache.dir
+/home/oleg/Project/robotino4-lib/build/lib/CMakeFiles/robotino4lib.dir
+/home/oleg/Project/robotino4-lib/build/tests/CMakeFiles/edit_cache.dir
+/home/oleg/Project/robotino4-lib/build/tests/CMakeFiles/rebuild_cache.dir
+/home/oleg/Project/robotino4-lib/build/tests/CMakeFiles/main_test.dir

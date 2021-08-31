@@ -1,0 +1,1 @@
+/usr/bin/c++     CMakeFiles/main_test.dir/main.cpp.o  -o main_test  -Wl,-rpath,/opt/robotino/lib ../lib/librobotino4lib.a /opt/robotino/lib/librec_robotino_api2.so 
