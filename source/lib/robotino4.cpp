@@ -35,8 +35,6 @@ void MyCom::pingEvent( float timeMs )
 Robotino4::Robotino4(const std::string& ip_addr)
 {
     omniDrive.setComId(com.id());
-    gyroscope.setComId(com.id());
-    motorDebug.setComId(com.id());
     motorArray.setComId(com.id());
     for (size_t i = 0; i < motor_num; i++)
     {
@@ -62,8 +60,6 @@ Robotino4::Robotino4(const std::string& ip_addr)
 
 Robotino4::~Robotino4()
 {
-    motorDebug.~MotorDebug();
-    gyroscope.~Gyroscope();
     omniDrive.~OmniDrive();
     motorArray.~MotorArray();
     for (size_t i = 0; i < motor_num; i++)
@@ -85,25 +81,6 @@ unsigned int Robotino4::get_msec()
 void Robotino4::sleep(unsigned int ms)
 {
     rec::robotino::api2::msleep(ms);
-}
-
-
-float Robotino4::get_gyro_angle()
-{
-    return gyroscope.angle();
-}
-
-float Robotino4::get_gyro_rate()
-{
-    return gyroscope.rate();
-}
-
-std::vector<float> Robotino4::get_gyro_data()
-{
-    std::vector<float> data = {0, 0};
-    data[0] = get_gyro_angle();
-    data[1] = get_gyro_rate();
-    return data;
 }
 
 /*Retrieves the actual position of this motor.

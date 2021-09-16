@@ -24,8 +24,6 @@ class Robotino4
 private:
     size_t motor_num = 3;
     MyCom com;
-    MotorDebug motorDebug;
-    Gyroscope gyroscope;
     OmniDrive omniDrive;
     Motor motor[3];
     MotorArray motorArray;
@@ -36,9 +34,6 @@ public:
 
     unsigned int get_msec();
     void sleep(unsigned int ms);
-    float get_gyro_angle();
-    float get_gyro_rate();
-    std::vector<float> get_gyro_data();
     int get_actual_position(size_t num);
     std::vector<int> get_actual_positions();
     float get_actual_velocity(size_t num);
