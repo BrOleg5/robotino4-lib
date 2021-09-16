@@ -51,7 +51,7 @@ public:
     void reset_motors_position(const std::vector<int>& pos);
     void set_motor_pid(size_t num, float kp, float ki, float kd);
     void set_motors_pid(const std::vector<float>& kp, const std::vector<float>& ki, const std::vector<float>& kd);
-    void set_robot_velocity(float vx, float vy, float omega);
+    void set_robot_speed(float vx, float vy, float omega);
 
 };
 

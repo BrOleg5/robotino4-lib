@@ -16,7 +16,7 @@ int main( int argc, char **argv )
     std::cout << "|--------------------------------------------------------------------------------------|" << std::endl;
     while (time <= test_duration)
     {
-        robotino.set_robot_velocity(0.1, 0, 0);
+        robotino.set_robot_speed(0.1, 0, 0);
         std::cout << " | " << robotino.get_msec() << " | " << robotino.get_actual_position(0) << " | " << robotino.get_actual_position(1) << " | ";
         std::cout << robotino.get_actual_position(2) << " | " << robotino.get_actual_velocity(0) << " | " << robotino.get_actual_velocity(1) << " | ";
         std::cout << robotino.get_actual_velocity(2) << " | " << robotino.get_actual_current(0) << " | " << robotino.get_actual_current(1) << " | ";
