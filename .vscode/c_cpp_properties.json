@@ -5,7 +5,7 @@
             "includePath": [
                 "${workspaceFolder}/**",
                 "/opt/robotino/include",
-                "/home/oleg/Project/robotino4-lib/include"
+                "/home/oleg/Project/robotino4-lib/source/include"
             ],
             "defines": [],
             "compilerPath": "/usr/bin/gcc",
