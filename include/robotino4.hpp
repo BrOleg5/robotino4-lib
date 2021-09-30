@@ -5,7 +5,9 @@
 #include "rec/robotino/api2/all.h"
 using namespace rec::robotino::api2;
 
-#define PI 3.14159265358979323846
+#ifndef PI
+#   define PI 3.14159265358979323846
+#endif
 
 class MyCom : public Com
 {
