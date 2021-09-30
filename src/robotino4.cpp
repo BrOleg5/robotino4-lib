@@ -60,14 +60,7 @@ Robotino4::Robotino4(const std::string& ip_addr)
 
 Robotino4::~Robotino4()
 {
-    omniDrive.~OmniDrive();
-    motorArray.~MotorArray();
-    for (size_t i = 0; i < motor_num; i++)
-    {
-        motor[i].~Motor();
-    }
     com.disconnectFromServer();
-    com.~MyCom();
     rec::robotino::api2::shutdown();
 }
 

@@ -24,6 +24,5 @@ int main( int argc, char **argv )
         robotino.sleep(20);
         time = robotino.get_msec();
     }
-    robotino.~Robotino4();
     return 0;
 }
