@@ -1,6 +1,12 @@
-add_executable(main_test main.cpp)
+add_executable(Robotino4Test main.cpp)
 
-target_link_libraries(main_test PUBLIC robotino4lib)
+target_link_libraries(Robotino4Test PUBLIC Robotino4Lib)
 
-target_include_directories(main_test
-        PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/../include")
+# target_include_directories(Robotino4Test
+#         PUBLIC "${PROJECT_SOURCE_DIR}/src")
+
+if(INSTALL_TESTS)
+        install(TARGETS Robotino4Test
+                EXPORT Robotino4Targets
+                RUNTIME DESTINATION "${CMAKE_INSTALL_BINDIR}/Robotino4" COMPONENT bin)
+endif()

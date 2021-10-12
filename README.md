@@ -4,46 +4,44 @@ There is Festo [Robotino API2](https://wiki.openrobotino.org/index.php?title=API
 
 ## Requirements
 
-- CMake v3.16 or later
+- CMake v3.0 or later
 - Robotino API2 v1.1.14 or later
 - gcc compiler 9.3.0 or later
 
-## Building and install the library
-
-### Configure Robotino4 library as static library
+## Configure, build and install library
 
 ```
 # Create build directory
 mkdir build
 
-# Configure
-cmake -S robotino4-lib/ -B build/ -DCMAKE_INSTALL_PREFIX="<path_to_install>"
-```
+# Configure as static library
+cmake -S robotino4-lib/ -B build/
 
-### Configure the library as shared library
-
-```
-# Create build directory
-mkdir build
-
-# Configure
-cmake -S robotino4-lib/ -B build/ -DBUILD_SHARED_LIBS=ON -DCMAKE_INSTALL_PREFIX="<path_to_install>"
-```
-
-### Build Robotino4 library
-
-```
 # Build
 cmake --build build/
+
+# Install
+sudo cmake --install build/
 ```
 
-### Install Robotino4 library
+You can also build and install shared library:
+```
+# Configure as shared library
+cmake -S robotino4-lib/ -B build/ -DBUILD_SHARED_LIBS=ON
+```
 
+You can build and install tests:
 ```
-cmake --install build/
+# Configure as static library
+cmake -S robotino4-lib/ -B build/ -DBUILD_TESTS=ON -DINSTALL_TESTS=ON
 ```
 
-Also you can build and install library at the same time:
+## Using Robotino4 with gcc and CMake
+
+Add this strings in your CMakeLists.txt file:
 ```
-cmake --build build/ --target install
+find_package(Robotino4 1.2 REQUIRED)
+target_link_libraries(<ProjectName> Robotino4Lib)
+# if nessesary, add include directories to target
+target_include_directories(<ProjectName> ${Robotino4_INCLUDE_DIRS})
 ```

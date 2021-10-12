@@ -1,28 +1,63 @@
-cmake_minimum_required(VERSION 3.16)
+cmake_minimum_required(VERSION 3.0)
 
-# set the project name and version
-project(robotino4lib VERSION 1.1 DESCRIPTION "Library for Festo Robotino 4")
+project(Robotino4 VERSION 1.2 DESCRIPTION "Library for Festo Robotino 4")
 
-add_subdirectory(tests)
+# set cmake config install dirs
+if(WIN32 AND NOT CYGWIN)
+  set(DEF_INSTALL_CMAKE_DIR CMake)
+else()
+  set(DEF_INSTALL_CMAKE_DIR lib/cmake/Robotino4)
+endif()
+set(INSTALL_CMAKE_DIR ${DEF_INSTALL_CMAKE_DIR} CACHE PATH
+  "Installation directory for CMake files")
 
 include(GNUInstallDirs)
 
-add_library(robotino4lib src/robotino4.cpp)
+set(CMAKE_INSTALL_RPATH "${CMAKE_INSTALL_LIBDIR}")
+set(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
 
-set_target_properties(robotino4lib PROPERTIES
-                      VERSION ${PROJECT_VERSION}
-                      PUBLIC_HEADER include/robotino4.hpp)
+option(BUILD_TESTS "Build tests programs." OFF)
+option(INSTALL_TESTS "Install tests programs." OFF)
 
-target_include_directories(robotino4lib PRIVATE include
-                           PRIVATE src)
+add_subdirectory(src)
 
-target_link_libraries(robotino4lib 
-                      /opt/robotino/lib/librec_robotino_api2.so)
-          
-target_include_directories(robotino4lib
-        PUBLIC "/opt/robotino/include"
-        "${CMAKE_CURRENT_SOURCE_DIR}/../include")
+if(BUILD_TESTS OR INSTALL_TESTS)
+        add_subdirectory(tests)
+endif()
 
-install(TARGETS robotino4lib
-    LIBRARY DESTINATION lib
-    PUBLIC_HEADER DESTINATION include)
+# Add all targets to the build-tree export set
+if(BUILD_TESTS OR INSTALL_TESTS)
+  export(TARGETS Robotino4Lib Robotino4Test
+         FILE "${PROJECT_BINARY_DIR}/Robotino4Targets.cmake")
+else()
+  export(TARGETS Robotino4Lib
+         FILE "${PROJECT_BINARY_DIR}/Robotino4Targets.cmake")
+endif()
+
+# Export the package for use from the build-tree
+# (this registers the build-tree with a global CMake-registry)
+export(PACKAGE Robotino4)
+
+# Create the Robotino4Config.cmake and Robotino4ConfigVersion.cmake files
+# ... for the build tree
+set(CONF_INCLUDE_DIRS "${PROJECT_SOURCE_DIR}" "${PROJECT_BINARY_DIR}")
+configure_file(Robotino4Config.cmake.in
+               "${PROJECT_BINARY_DIR}/Robotino4Config.cmake" @ONLY)
+
+# ... for the install tree
+set(CONF_INCLUDE_DIRS "\${ROBOTINO4_CMAKE_DIR}/${CMAKE_INSTALL_INCLUDEDIR}")
+configure_file(Robotino4Config.cmake.in
+               "${PROJECT_BINARY_DIR}${CMAKE_FILES_DIRECTORY}/Robotino4Config.cmake" @ONLY)
+
+# ... for both
+configure_file(Robotino4ConfigVersion.cmake.in "${PROJECT_BINARY_DIR}/Robotino4ConfigVersion.cmake" @ONLY)
+
+# Install the Robotino4Config.cmake and Robotino4ConfigVersion.cmake files
+install(FILES
+        "${PROJECT_BINARY_DIR}${CMAKE_FILES_DIRECTORY}/Robotino4Config.cmake"
+        "${PROJECT_BINARY_DIR}/Robotino4ConfigVersion.cmake"
+        DESTINATION "${INSTALL_CMAKE_DIR}" COMPONENT dev)
+
+# Install the export set for use with the install-tree
+install(EXPORT Robotino4Targets
+        DESTINATION "${INSTALL_CMAKE_DIR}" COMPONENT dev)
