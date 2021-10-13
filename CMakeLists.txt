@@ -28,10 +28,10 @@ endif()
 # Add all targets to the build-tree export set
 if(BUILD_TESTS OR INSTALL_TESTS)
   export(TARGETS Robotino4Lib Robotino4Test
-         FILE "${PROJECT_BINARY_DIR}/Robotino4Targets.cmake")
+         FILE "${PROJECT_BINARY_DIR}/cmake/Robotino4Targets.cmake")
 else()
   export(TARGETS Robotino4Lib
-         FILE "${PROJECT_BINARY_DIR}/Robotino4Targets.cmake")
+         FILE "${PROJECT_BINARY_DIR}/cmake/Robotino4Targets.cmake")
 endif()
 
 # Export the package for use from the build-tree
@@ -41,21 +41,21 @@ export(PACKAGE Robotino4)
 # Create the Robotino4Config.cmake and Robotino4ConfigVersion.cmake files
 # ... for the build tree
 set(CONF_INCLUDE_DIRS "${PROJECT_SOURCE_DIR}" "${PROJECT_BINARY_DIR}")
-configure_file(Robotino4Config.cmake.in
-               "${PROJECT_BINARY_DIR}/Robotino4Config.cmake" @ONLY)
+configure_file(cmake/Robotino4Config.cmake.in
+               "${PROJECT_BINARY_DIR}/cmake/Robotino4Config.cmake" @ONLY)
 
 # ... for the install tree
 set(CONF_INCLUDE_DIRS "\${ROBOTINO4_CMAKE_DIR}/${CMAKE_INSTALL_INCLUDEDIR}")
-configure_file(Robotino4Config.cmake.in
-               "${PROJECT_BINARY_DIR}${CMAKE_FILES_DIRECTORY}/Robotino4Config.cmake" @ONLY)
+configure_file(cmake/Robotino4Config.cmake.in
+               "${PROJECT_BINARY_DIR}${CMAKE_FILES_DIRECTORY}/cmake/Robotino4Config.cmake" @ONLY)
 
 # ... for both
-configure_file(Robotino4ConfigVersion.cmake.in "${PROJECT_BINARY_DIR}/Robotino4ConfigVersion.cmake" @ONLY)
+configure_file(cmake/Robotino4ConfigVersion.cmake.in "${PROJECT_BINARY_DIR}/cmake/Robotino4ConfigVersion.cmake" @ONLY)
 
 # Install the Robotino4Config.cmake and Robotino4ConfigVersion.cmake files
 install(FILES
-        "${PROJECT_BINARY_DIR}${CMAKE_FILES_DIRECTORY}/Robotino4Config.cmake"
-        "${PROJECT_BINARY_DIR}/Robotino4ConfigVersion.cmake"
+        "${PROJECT_BINARY_DIR}${CMAKE_FILES_DIRECTORY}/cmake/Robotino4Config.cmake"
+        "${PROJECT_BINARY_DIR}/cmake/Robotino4ConfigVersion.cmake"
         DESTINATION "${INSTALL_CMAKE_DIR}" COMPONENT dev)
 
 # Install the export set for use with the install-tree
