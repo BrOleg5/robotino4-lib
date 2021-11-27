@@ -82,7 +82,7 @@ std::vector<int> Robotino4::get_actual_positions()
 
 float Robotino4::get_actual_velocity(size_t num)
 {
-    return 2 * PI * motor[num].actualVelocity() / 60;
+    return 2 * (float) PI * motor[num].actualVelocity() / 60;
 }
 
 std::vector<float> Robotino4::get_actual_velocities()
@@ -91,7 +91,7 @@ std::vector<float> Robotino4::get_actual_velocities()
     motorArray.actualVelocities(&vel[0]);
     for (size_t i = 0; i < motor_num; i++)
     {
-        vel[i] = 2 * PI * vel[i] / 60;
+        vel[i] = 2 * (float) PI * vel[i] / 60;
     }
     return vel;
 }
@@ -104,18 +104,45 @@ float Robotino4::get_actual_current(size_t num)
 std::vector<float> Robotino4::get_actual_currents()
 {
     std::vector<float> cur = {0, 0, 0};
-    motorArray.actualVelocities(&cur[0]);
+    motorArray.motorCurrents(&cur[0]);
     return cur;
 }
 
 void Robotino4::set_motor_speed(size_t num, float speed)
 {
-    motor[num].setSpeedSetPoint(60 * speed / (2 * PI));
+    if(std::abs(speed) > motor_vel_limit) {
+        const size_t buf_size = 100;
+        char buffer[buf_size];
+        #ifdef WIN32
+            sprintf_s(buffer, buf_size, "Set point %zu motor's velocity higher than %f rad/s.\n", num+1, motor_vel_limit);
+        #else
+            sprintf(buffer, "Set point %zu motor's velocity higher than %f rad/s.\n", num+1, motor_vel_limit);
+        #endif
+        throw std::invalid_argument(buffer);
+    }
+    else {
+        motor[num].setSpeedSetPoint(60 * speed / (2 * (float) PI));
+    }
 }
 
 void Robotino4::set_motors_speed(const std::vector<float>& speeds)
 {
-    motorArray.setSpeedSetPoints(&speeds[0], motor_num);
+    std::vector<float> speeds_in_rpm = {0, 0, 0};
+    for (size_t i = 0; i < motor_num; i++)
+    {
+        speeds_in_rpm[i] = 60 * speeds[i] / (2 * (float) PI);
+        if(std::abs(speeds[i]) > motor_vel_limit) {
+            const size_t buf_size = 100;
+            char buffer[buf_size];
+            #ifdef WIN32
+                sprintf_s(buffer, buf_size, "Set point %zu motor's velocity higher than %f rad/s.\n", num+1, motor_vel_limit);
+            #else
+                sprintf(buffer, "Set point %zu motor's velocity higher than %f rad/s.\n", i+1, motor_vel_limit);
+            #endif
+            throw std::invalid_argument(buffer);
+        }
+    }
+    motorArray.setSpeedSetPoints(&speeds_in_rpm[0], motor_num);
 }
 
 void Robotino4::reset_motor_position(size_t num, int pos)
@@ -148,5 +175,42 @@ void Robotino4::set_motors_pid(const std::vector<float>& kp, const std::vector<f
 
 void Robotino4::set_robot_speed(float vx, float vy, float omega)
 {
+    const size_t buf_size = 100;
+    char buffer[buf_size];
+    if(std::abs(vx) > robot_lin_speed_limit) {
+        #ifdef WIN32
+            sprintf_s(buffer, buf_size, "Set point robot's speed along X axis higher than %f m/s.\n", robot_lin_speed_limit);
+        #else
+            sprintf(buffer, "Set point robot's speed along X axis higher than %f m/s.\n", robot_lin_speed_limit);
+        #endif
+        throw std::invalid_argument(buffer);
+    }
+    if(std::abs(vy) > robot_lin_speed_limit) {
+        #ifdef WIN32
+            sprintf_s(buffer, buf_size, "Set point robot's speed along Y axis higher than %f m/s.\n", robot_lin_speed_limit);
+        #else
+            sprintf(buffer, "Set point robot's speed along Y axis higher than %f m/s.\n", robot_lin_speed_limit);
+        #endif
+        throw std::invalid_argument(buffer);
+    }
+    if(std::abs(omega) > robot_vel_limit) {
+        #ifdef WIN32
+            sprintf_s(buffer, buf_size, "Set point robot's angular velocity higher than %f rad/s.\n", robot_vel_limit);
+        #else
+            sprintf(buffer, "Set point robot's angular velocity higher than %f rad/s.\n", robot_vel_limit);
+        #endif
+        throw std::invalid_argument(buffer);
+    }
     omniDrive.setVelocity(vx, vy, omega);
+}
+
+std::vector<float> Robotino4::robot_speed_to_motor_speeds(float vx, float vy, float omega) {
+    float m1, m2, m3;
+    omniDriveModel.project(&m1, &m2, &m3, vx, vy, omega);
+    std::vector<float> res = {m1, m2, m3};
+    for (size_t i = 0; i < 3; i++)
+    {
+        res[i] = 2 * (float) PI * res[i] / 60;
+    }
+    return res;
 }

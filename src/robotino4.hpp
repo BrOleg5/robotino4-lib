@@ -2,7 +2,11 @@
 #   define ROBOTINO4_HPP 
 
 #include <iostream>
+#include <cmath>
+#include <vector>
+#include <stdexcept>
 #include "rec/robotino/api2/all.h"
+#include "rec/robotino/api2/OmniDriveModel.h"
 using namespace rec::robotino::api2;
 
 #ifndef PI
@@ -91,6 +95,11 @@ private:
     OmniDrive omniDrive;
 
     /**
+     * Represents a Robotino kinematics model and parameters.
+     */
+    OmniDriveModel omniDriveModel;
+
+    /**
      * Array of Robotino motors.
      */
     Motor motor[3];
@@ -99,6 +108,21 @@ private:
      * Array of Robotino motors.
      */
     MotorArray motorArray;
+
+    /**
+     * Motor's velocity limit in rad/s.
+     */
+    const float motor_vel_limit = 240;
+
+    /**
+     * Robot's linear speed limit in m/s.
+     */
+    const float robot_lin_speed_limit = 0.8f;
+
+    /**
+     * Robot's angular velocity limit in rad/s.
+     */
+    const float robot_vel_limit = (float) PI;
 
 public:
 
@@ -169,6 +193,7 @@ public:
      * 
      * @param num motor number.
      * @param speed setpoint speed in rad/s.
+     * @throw Invalid argument.
      */
     void set_motor_speed(size_t num, float speed);
 
@@ -176,6 +201,7 @@ public:
      * Sets the setpoint speed of all motors.
      * 
      * @param speed speed setpoints for all motors in rad/s.
+     * @throw Invalid argument.
      */
     void set_motors_speed(const std::vector<float>& speeds);
 
@@ -225,10 +251,19 @@ public:
      * @param vx speed along x axis of robot's local coordinate system in m/s.
      * @param vy speed along y axis of robot's local coordinate system in m/s.
      * @param omega angular velocity of rotation in rad/s.
+     * @throw Invalid argument.
      * @remark This function is thread save. It should be called about every 100ms.
      */
     void set_robot_speed(float vx, float vy, float omega);
 
+    /**
+     * Project the velocity of the robot in cartesian coordinates to single motor speeds.
+     * 
+     * @param vx speed along x axis of robot's local coordinate system in m/s.
+     * @param vy speed along y axis of robot's local coordinate system in m/s.
+     * @param omega angular velocity of rotation in rad/s.
+     */
+    std::vector<float> robot_speed_to_motor_speeds(float vx, float vy, float omega);
 };
 
 #endif
