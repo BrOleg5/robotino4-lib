@@ -31,7 +31,7 @@ Robotino4::Robotino4(const std::string& ip_addr)
 {
     omniDrive.setComId(com.id());
     motorArray.setComId(com.id());
-    for (size_t i = 0; i < motor_num; i++)
+    for (unsigned int i = 0; i < motor_num; i++)
     {
         motor[i].setComId(com.id());
         motor[i].setMotorNumber(i);
@@ -135,14 +135,14 @@ void Robotino4::set_motors_speed(const std::vector<float>& speeds)
             const size_t buf_size = 100;
             char buffer[buf_size];
             #ifdef WIN32
-                sprintf_s(buffer, buf_size, "Set point %zu motor's velocity higher than %f rad/s.\n", num+1, motor_vel_limit);
+                sprintf_s(buffer, buf_size, "Set point %zu motor's velocity higher than %f rad/s.\n", i+1, motor_vel_limit);
             #else
                 sprintf(buffer, "Set point %zu motor's velocity higher than %f rad/s.\n", i+1, motor_vel_limit);
             #endif
             throw std::invalid_argument(buffer);
         }
     }
-    motorArray.setSpeedSetPoints(&speeds_in_rpm[0], motor_num);
+    motorArray.setSpeedSetPoints(&speeds_in_rpm[0], (unsigned int) motor_num);
 }
 
 void Robotino4::reset_motor_position(size_t num, int pos)

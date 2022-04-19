@@ -6,34 +6,53 @@ There is Festo [Robotino API2](https://wiki.openrobotino.org/index.php?title=API
 
 - CMake v3.0 or later
 - Robotino API2 v1.1.14 or later
-- gcc compiler 9.3.0 or later
+- compiler: gcc 9.3.0 or later
 
 ## Configure, build and install library
 
+### Ubuntu 20.04
+
 ```
 # Create build directory
-mkdir build
+mkdir build/
 
-# Configure as static library
+# Configure
 cmake -S robotino4-lib/ -B build/
 
-# Build
-cmake --build build/
+# Build certain configuration <cfg>: Debug (default), Release
+cmake --build build/ --config <cfg>
 
-# Install
-sudo cmake --install build/
-```
-
-You can also build and install shared library:
-```
-# Configure as shared library
-cmake -S robotino4-lib/ -B build/ -DBUILD_SHARED_LIBS=ON
+# Install certain configuration <cfg>: Debug (default), Release
+# <prefix> is installation path (default /usr/local)
+sudo cmake --install build/ --config <cfg> --prefix <prefix>
 ```
 
-You can build and install tests:
+### Windows 10
+
+#### x64
+
 ```
-# Configure as static library
-cmake -S robotino4-lib/ -B build/ -DBUILD_TESTS=ON -DINSTALL_TESTS=ON
+# Create build directory
+mkdir .\build\
+
+# Configure. Build system generator <generator-name>: for MSVC 19 (Visual Studio 2017) is "Visual Studio 15 Win64".
+# Command "cmake --help" print full lust of generators that are available on your platform
+cmake -S .\robotino4-lib\ -B .\build\ -G <generator-name>
+
+# Build certain configuration <cfg>: Debug (default), Release
+cmake --build .\build\ --config <cfg>
+
+# Install certain library configuration <cfg>: Debug (default), Release
+# <prefix> is installation path (default SystemPartition:\Program Files (x86)\<project name>)
+cmake --install .\build\ --config <cfg> --prefix <prefix>
+```
+
+### Extra options
+
+You can build and install test programs. For this add option `-D BUILD_TESTS=ON`.
+```
+# Configure
+cmake -S robotino4-lib/ -B build/ -DBUILD_TESTS=ON
 ```
 
 ## Using Robotino4 with gcc and CMake
