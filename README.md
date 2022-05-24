@@ -6,7 +6,7 @@ There is Festo [Robotino API2](https://wiki.openrobotino.org/index.php?title=API
 
 - CMake v3.0 or later
 - Robotino API2 v1.1.14 or later
-- compiler: gcc 9.3.0 or later
+- compiler: gcc 9.3.0 or later; MSVC 19 (Visual Studio 2017) or later
 
 ## Configure, build and install library
 
