@@ -49,18 +49,18 @@ cmake --install .\build\ --config <cfg> --prefix <prefix>
 
 ### Extra options
 
-You can build and install test programs. For this add option `-D BUILD_TESTS=ON`.
+You can build and install example programs. For this add option `-D BUILD_EXAMPLES=ON`.
 ```
 # Configure
-cmake -S robotino4-lib/ -B build/ -DBUILD_TESTS=ON
+cmake -S .\robotino4-lib\ -B .\build\ -G <generator-name> -BUILD_EXAMPLES=ON
 ```
 
 ## Using Robotino4 with gcc and CMake
 
 Add this strings in your CMakeLists.txt file:
 ```
-find_package(Robotino4 1.2 REQUIRED)
-target_link_libraries(<ProjectName> Robotino4Lib)
+find_package(Robotino4Wrapper 1.3.0 REQUIRED)
+target_link_libraries(<ProjectName> robotino4)
 # if nessesary, add include directories to target
-target_include_directories(<ProjectName> ${Robotino4_INCLUDE_DIRS})
+target_include_directories(<ProjectName> ${Robotino4Wrapper_INCLUDE_DIRS})
 ```
