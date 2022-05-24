@@ -2,7 +2,8 @@ add_library(robotino4 robotino4.cpp robotino4.hpp)
 
 set_target_properties(robotino4 PROPERTIES
                       VERSION ${PROJECT_VERSION}
-                      PUBLIC_HEADER robotino4.hpp)
+                      PUBLIC_HEADER robotino4.hpp
+                      DEBUG_POSTFIX d)
 
 if(WIN32 AND NOT CYGWIN)
         set(ROBOTINOAPI2_LIB "$ENV{ROBOTINOAPI2_64_DIR}/lib/rec_robotino_api2.lib")
