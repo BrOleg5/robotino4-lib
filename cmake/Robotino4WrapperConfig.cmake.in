@@ -1,0 +1,20 @@
+# Config file for the Robotino4Wrapper package
+# It defines the following variables
+#  Robotino4Wrapper_INCLUDE_DIRS    - include directories
+#  Robotino4Wrapper_LIB             - library
+#  Robotino4Wrapper_EXECUTABLE      - the example executable
+
+# Compute paths
+get_filename_component(ROBOTINO4WRAPPER_CMAKE_DIR "${CMAKE_CURRENT_LIST_FILE}" PATH)
+set(Robotino4Wrapper_INCLUDE_DIRS "@CONF_INCLUDE_DIRS@")
+
+# Our library dependencies (contains definitions for IMPORTED targets)
+if(NOT TARGET robotino4 AND NOT Robotino4Wrapper_BINARY_DIR)
+    include("${ROBOTINO4WRAPPER_CMAKE_DIR}/Robotino4WrapperTargets.cmake")
+endif()
+
+# These are IMPORTED targets created by Robotino4WrapperTargets.cmake
+set(Robotino4Wrapper_LIB robotino4)
+if(@BUILD_EXAMPLES@)
+    set(Robotino4Wrapper_EXECUTABLE move_forward)
+endif()

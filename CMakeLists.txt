@@ -1,12 +1,12 @@
 cmake_minimum_required(VERSION 3.0)
 
-project(Robotino4 VERSION 1.2 DESCRIPTION "Library for Festo Robotino 4")
+project(Robotino4Wrapper VERSION 1.3 DESCRIPTION "Wrapper for library of Festo Robotino 4")
 
 # set cmake config install dirs
 if(WIN32 AND NOT CYGWIN)
-  set(DEF_INSTALL_CMAKE_DIR CMake)
+  set(DEF_INSTALL_CMAKE_DIR cmake)
 else()
-  set(DEF_INSTALL_CMAKE_DIR lib/cmake/Robotino4)
+  set(DEF_INSTALL_CMAKE_DIR lib/cmake/Robotino4Wrapper)
 endif()
 set(INSTALL_CMAKE_DIR ${DEF_INSTALL_CMAKE_DIR} CACHE PATH
   "Installation directory for CMake files")
@@ -16,47 +16,42 @@ include(GNUInstallDirs)
 set(CMAKE_INSTALL_RPATH "${CMAKE_INSTALL_LIBDIR}")
 set(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
 
-option(BUILD_TESTS "Build and install tests programs." OFF)
+option(BUILD_EXAMPLES "Build and install examples." OFF)
 
 add_subdirectory(src)
 
-if(BUILD_TESTS)
-        add_subdirectory(tests)
+if(BUILD_EXAMPLES)
+        add_subdirectory(examples)
 endif()
 
 # Add all targets to the build-tree export set
-if(BUILD_TESTS)
-  export(TARGETS Robotino4Lib Robotino4Test
-         FILE "${PROJECT_BINARY_DIR}/cmake/Robotino4Targets.cmake")
-else()
-  export(TARGETS Robotino4Lib
-         FILE "${PROJECT_BINARY_DIR}/cmake/Robotino4Targets.cmake")
-endif()
+export(TARGETS robotino4
+        FILE "${PROJECT_BINARY_DIR}/cmake/Robotino4WrapperTargets.cmake")
 
 # Export the package for use from the build-tree
 # (this registers the build-tree with a global CMake-registry)
-export(PACKAGE Robotino4)
+export(PACKAGE Robotino4Wrapper)
 
-# Create the Robotino4Config.cmake and Robotino4ConfigVersion.cmake files
+# Create the Robotino4WrapperConfig.cmake and Robotino4WrapperConfigVersion.cmake files
 # ... for the build tree
 set(CONF_INCLUDE_DIRS "${PROJECT_SOURCE_DIR}" "${PROJECT_BINARY_DIR}")
-configure_file(cmake/Robotino4Config.cmake.in
-               "${PROJECT_BINARY_DIR}/cmake/Robotino4Config.cmake" @ONLY)
+configure_file(cmake/Robotino4WrapperConfig.cmake.in
+               "${PROJECT_BINARY_DIR}/cmake/Robotino4WrapperConfig.cmake" @ONLY)
 
 # ... for the install tree
-set(CONF_INCLUDE_DIRS "\${ROBOTINO4_CMAKE_DIR}/${CMAKE_INSTALL_INCLUDEDIR}")
-configure_file(cmake/Robotino4Config.cmake.in
-               "${PROJECT_BINARY_DIR}${CMAKE_FILES_DIRECTORY}/cmake/Robotino4Config.cmake" @ONLY)
+set(CONF_INCLUDE_DIRS "\${ROBOTINO4WRAPPER_CMAKE_DIR}/${CMAKE_INSTALL_INCLUDEDIR}")
+configure_file(cmake/Robotino4WrapperConfig.cmake.in
+               "${PROJECT_BINARY_DIR}${CMAKE_FILES_DIRECTORY}/cmake/Robotino4WrapperConfig.cmake" @ONLY)
 
 # ... for both
-configure_file(cmake/Robotino4ConfigVersion.cmake.in "${PROJECT_BINARY_DIR}/cmake/Robotino4ConfigVersion.cmake" @ONLY)
+configure_file(cmake/Robotino4WrapperConfigVersion.cmake.in "${PROJECT_BINARY_DIR}/cmake/Robotino4WrapperConfigVersion.cmake" @ONLY)
 
-# Install the Robotino4Config.cmake and Robotino4ConfigVersion.cmake files
+# Install the Robotino4WrapperConfig.cmake and Robotino4WrapperConfigVersion.cmake files
 install(FILES
-        "${PROJECT_BINARY_DIR}${CMAKE_FILES_DIRECTORY}/cmake/Robotino4Config.cmake"
-        "${PROJECT_BINARY_DIR}/cmake/Robotino4ConfigVersion.cmake"
+        "${PROJECT_BINARY_DIR}${CMAKE_FILES_DIRECTORY}/cmake/Robotino4WrapperConfig.cmake"
+        "${PROJECT_BINARY_DIR}/cmake/Robotino4WrapperConfigVersion.cmake"
         DESTINATION "${INSTALL_CMAKE_DIR}" COMPONENT dev)
 
 # Install the export set for use with the install-tree
-install(EXPORT Robotino4Targets
+install(EXPORT Robotino4WrapperTargets
         DESTINATION "${INSTALL_CMAKE_DIR}" COMPONENT dev)
