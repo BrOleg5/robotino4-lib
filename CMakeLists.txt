@@ -21,7 +21,7 @@ include(GNUInstallDirs)
 set(CMAKE_INSTALL_RPATH "${CMAKE_INSTALL_LIBDIR}")
 set(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
 
-option(BUILD_EXAMPLES "Build and install examples." OFF)
+option(BUILD_EXAMPLES "Build examples." OFF)
 
 add_subdirectory(src)
 
@@ -60,3 +60,10 @@ install(FILES
 # Install the export set for use with the install-tree
 install(EXPORT Robotino4WrapperTargets
         DESTINATION "${INSTALL_CMAKE_DIR}" COMPONENT dev)
+
+include(InstallRequiredSystemLibraries)
+set(CPACK_PACKAGE_VERSION_MAJOR "${ROBOTINO4WRAPPER_MAJOR_VERSION}")
+set(CPACK_PACKAGE_VERSION_MINOR "${ROBOTINO4WRAPPER_MINOR_VERSION}")
+set(CPACK_PACKAGE_VERSION_PATCH "${ROBOTINO4WRAPPER_PATCH_VERSION}")
+set(CPACK_SOURCE_GENERATOR "7Z")
+include(CPack)
