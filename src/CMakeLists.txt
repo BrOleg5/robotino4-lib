@@ -15,10 +15,10 @@ endif()
 
 target_link_libraries(robotino4 PUBLIC ${ROBOTINOAPI2_LIB})
 
-target_include_directories(robotino4 PUBLIC
+target_include_directories(robotino4 INTERFACE
                            $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
-                           $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
-                           ${ROBOTINOAPI2_INCLUDE_DIR})
+                           $<INSTALL_INTERFACE:include>
+                           PUBLIC ${ROBOTINOAPI2_INCLUDE_DIR})
 
 install(TARGETS robotino4
         EXPORT Robotino4WrapperTargets
