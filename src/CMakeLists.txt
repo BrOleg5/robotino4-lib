@@ -2,6 +2,7 @@ add_library(robotino4 robotino4.cpp robotino4.hpp)
 
 set_target_properties(robotino4 PROPERTIES
                       VERSION ${PROJECT_VERSION}
+                      SOVERSION ${PROJECT_VERSION_MAJOR}
                       PUBLIC_HEADER robotino4.hpp
                       DEBUG_POSTFIX d)
 
