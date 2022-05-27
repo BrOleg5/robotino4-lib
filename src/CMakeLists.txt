@@ -1,20 +1,19 @@
 add_library(robotino4 robotino4.cpp robotino4.hpp)
 
+if(WIN32)
+        string(REPLACE "\\" "/" ROBOTINOAPI2_DIR $ENV{ROBOTINOAPI2_64_DIR})
+        set(CMAKE_MODULE_PATH "${ROBOTINOAPI2_DIR}/cmake")
+endif(WIN32)
+
+find_package(RobotinoAPI2)
+
 set_target_properties(robotino4 PROPERTIES
                       VERSION ${PROJECT_VERSION}
                       SOVERSION ${PROJECT_VERSION_MAJOR}
                       PUBLIC_HEADER robotino4.hpp
                       DEBUG_POSTFIX d)
 
-if(WIN32 AND NOT CYGWIN)
-        set(ROBOTINOAPI2_LIB "$ENV{ROBOTINOAPI2_64_DIR}/lib/rec_robotino_api2.lib")
-        set(ROBOTINOAPI2_INCLUDE_DIR "$ENV{ROBOTINOAPI2_64_DIR}/include")
-else()
-        set(ROBOTINOAPI2_LIB /opt/robotino/lib/librec_robotino_api2.so)
-        set(ROBOTINOAPI2_INCLUDE_DIR "/opt/robotino/include")
-endif()
-
-target_link_libraries(robotino4 PUBLIC ${ROBOTINOAPI2_LIB})
+target_link_libraries(robotino4 PUBLIC ${REC_ROBOTINO_API2_LIBRARY})
 
 target_include_directories(robotino4 INTERFACE
                            $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
