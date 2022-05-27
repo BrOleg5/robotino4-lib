@@ -20,7 +20,7 @@ endif()
 # Install the export set for use with the install-tree
 install(EXPORT Robotino4WrapperTargets
         FILE Robotino4WrapperTargets.cmake
-        DESTINATION "cmake" COMPONENT dev)
+        DESTINATION "cmake" COMPONENT lib)
 
 include(CMakePackageConfigHelpers)
 
@@ -38,7 +38,7 @@ write_basic_package_version_file("${CMAKE_CURRENT_BINARY_DIR}/cmake/Robotino4Wra
 install(FILES
         "${CMAKE_CURRENT_BINARY_DIR}/cmake/Robotino4WrapperConfig.cmake"
         "${CMAKE_CURRENT_BINARY_DIR}/cmake/Robotino4WrapperConfigVersion.cmake"
-        DESTINATION "cmake" COMPONENT dev)
+        DESTINATION "cmake" COMPONENT lib)
 
 export(EXPORT Robotino4WrapperTargets
        FILE "${CMAKE_CURRENT_BINARY_DIR}/cmake/Robotino4WrapperTargets.cmake")
@@ -49,3 +49,14 @@ set(CPACK_PACKAGE_VERSION_MINOR "${ROBOTINO4WRAPPER_MINOR_VERSION}")
 set(CPACK_PACKAGE_VERSION_PATCH "${ROBOTINO4WRAPPER_PATCH_VERSION}")
 set(CPACK_SOURCE_GENERATOR "7Z")
 include(CPack)
+
+cpack_add_component(lib DISPLAY_NAME "Library"
+                    REQUIRED)
+
+cpack_add_component_group(Runtime
+                          EXPANDED)
+
+cpack_add_component(examples DISPLAY_NAME "Examples"
+                    GROUP Runtime)
+cpack_add_component(robotinoapi2_dlls DISPLAY_NAME "RobotinoAPI2 DLLs" 
+                    GROUP Runtime)
