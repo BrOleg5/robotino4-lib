@@ -53,10 +53,4 @@ include(CPack)
 cpack_add_component(lib DISPLAY_NAME "Library"
                     REQUIRED)
 
-cpack_add_component_group(Runtime
-                          EXPANDED)
-
-cpack_add_component(examples DISPLAY_NAME "Examples"
-                    GROUP Runtime)
-cpack_add_component(robotinoapi2_dlls DISPLAY_NAME "RobotinoAPI2 DLLs" 
-                    GROUP Runtime)
+cpack_add_component(examples DISPLAY_NAME "Examples")
