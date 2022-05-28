@@ -1,7 +1,13 @@
 add_library(robotino4 robotino4.cpp robotino4.hpp)
 
 if(WIN32)
-        string(REPLACE "\\" "/" ROBOTINOAPI2_DIR $ENV{ROBOTINOAPI2_64_DIR})
+        if(NOT ROBOTINOAPI2_DIR)
+                if($ENV{ROBOTINOAPI2_64_DIR})
+                        string(REPLACE "\\" "/" ROBOTINOAPI2_DIR $ENV{ROBOTINOAPI2_64_DIR})
+                else($ENV{ROBOTINOAPI2_64_DIR})
+                        message(FATAL_ERROR "Environment variable ROBOTINOAPI2_64_DIR is not set.")
+                endif($ENV{ROBOTINOAPI2_64_DIR})
+        endif(NOT ROBOTINOAPI2_DIR)
         set(CMAKE_MODULE_PATH "${ROBOTINOAPI2_DIR}/cmake")
 endif(WIN32)
 
