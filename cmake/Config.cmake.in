@@ -11,7 +11,7 @@ if(WIN32)
         set(CMAKE_MODULE_PATH "${ROBOTINOAPI2_DIR}/cmake")
 endif()
 
-find_package(RobotinoAPI2)
+find_package(RobotinoAPI2 REQUIRED)
 
 # Create Robotino API2 IMPORTED target manually
 # source: https://stackoverflow.com/questions/62000801/cmake-how-do-i-avoid-getting-absolute-paths-in-interface-target-properties
