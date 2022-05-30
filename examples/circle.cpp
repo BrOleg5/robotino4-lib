@@ -2,6 +2,7 @@
 #include "inputparser.hpp"
 #include <iostream>
 #include <iomanip>
+#include <cmath>
 
 int main( int argc, char **argv )
 {
@@ -32,12 +33,19 @@ int main( int argc, char **argv )
     }
     Robotino4 robotino(ip_addr);
     
+    const float start_speed_vector[2] = {0.1f, 0.0f};
+    float speed_vector[2] = {0.0f};
+    float rad = 0.0f;
+
     unsigned int time = robotino.get_msec();
     std::cout << "| Time | M1 pos | M2 pos | M3 pos | M1 vel | M2 vel | M3 vel| M1 cur | M2 cur | M3 cur |" << std::endl;
     std::cout << "|--------------------------------------------------------------------------------------|" << std::endl;
     while (time <= test_duration)
     {
-        robotino.set_robot_speed(0.1f, 0.0f, 0.0f);
+        rad = 2*PI * time / test_duration;
+        speed_vector[0] = std::cosf(rad) * start_speed_vector[0] - std::sinf(rad) * start_speed_vector[1];
+        speed_vector[1] = std::sinf(rad) * start_speed_vector[0] + std::cosf(rad) * start_speed_vector[1];
+        robotino.set_robot_speed(speed_vector[0], speed_vector[1], 0.0f);
         std::cout << " | " << robotino.get_msec() << " | " << robotino.get_actual_position(0) << " | " << robotino.get_actual_position(1) << " | ";
         std::cout << robotino.get_actual_position(2) << " | " << robotino.get_actual_velocity(0) << " | " << robotino.get_actual_velocity(1) << " | ";
         std::cout << robotino.get_actual_velocity(2) << " | " << robotino.get_actual_current(0) << " | " << robotino.get_actual_current(1) << " | ";
