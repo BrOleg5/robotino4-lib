@@ -47,8 +47,20 @@ include(InstallRequiredSystemLibraries)
 set(CPACK_PACKAGE_VERSION_MAJOR "${ROBOTINO4WRAPPER_MAJOR_VERSION}")
 set(CPACK_PACKAGE_VERSION_MINOR "${ROBOTINO4WRAPPER_MINOR_VERSION}")
 set(CPACK_PACKAGE_VERSION_PATCH "${ROBOTINO4WRAPPER_PATCH_VERSION}")
-set(CPACK_SOURCE_GENERATOR "7Z")
-set(CPACK_DEBIAN_PACKAGE_MAINTAINER "The National Research Tomsk Polytechnic University")
+
+if(NOT WIN32)
+        set(CPACK_DEBIAN_PACKAGE_MAINTAINER "oleg.brylyov@mail.ru")
+        set(CPACK_DEBIAN_PACKAGE_DEPENDS "robotino-api2 (>= 1.1.14), robotino-dev (>= 1.0.3)")
+
+        set(CPACK_PACKAGING_INSTALL_PREFIX "/opt/robotino4wrapper")        
+endif(NOT WIN32)
+
+if(WIN32)
+        set(CPACK_SOURCE_GENERATOR "SOURCE_ZIP")
+elseif(WIN32)
+        set(CPACK_SOURCE_GENERATOR "SOURCE_TGZ")
+endif(WIN32)
+
 include(CPack)
 
 cpack_add_component(lib DISPLAY_NAME "Library"
