@@ -43,8 +43,13 @@ int main( int argc, char **argv )
     while (time <= test_duration)
     {
         rad = 2*PI * time / test_duration;
-        speed_vector[0] = std::cosf(rad) * start_speed_vector[0] - std::sinf(rad) * start_speed_vector[1];
-        speed_vector[1] = std::sinf(rad) * start_speed_vector[0] + std::cosf(rad) * start_speed_vector[1];
+        #ifdef WIN32
+            speed_vector[0] = std::cosf(rad) * start_speed_vector[0] - std::sinf(rad) * start_speed_vector[1];
+            speed_vector[1] = std::sinf(rad) * start_speed_vector[0] + std::cosf(rad) * start_speed_vector[1];
+        #else
+            speed_vector[0] = std::cos(rad) * start_speed_vector[0] - std::sin(rad) * start_speed_vector[1];
+            speed_vector[1] = std::sin(rad) * start_speed_vector[0] + std::cos(rad) * start_speed_vector[1];
+        #endif
         robotino.set_robot_speed(speed_vector[0], speed_vector[1], 0.0f);
         std::cout << " | " << robotino.get_msec() << " | " << robotino.get_actual_position(0) << " | " << robotino.get_actual_position(1) << " | ";
         std::cout << robotino.get_actual_position(2) << " | " << robotino.get_actual_velocity(0) << " | " << robotino.get_actual_velocity(1) << " | ";
