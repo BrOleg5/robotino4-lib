@@ -56,10 +56,11 @@ if(NOT WIN32)
 endif(NOT WIN32)
 
 if(WIN32)
-        set(CPACK_SOURCE_GENERATOR "SOURCE_ZIP")
+        set(CPACK_SOURCE_GENERATOR "ZIP;7Z")
 elseif(WIN32)
-        set(CPACK_SOURCE_GENERATOR "SOURCE_TGZ")
+        set(CPACK_SOURCE_GENERATOR "TGZ")
 endif(WIN32)
+set(CPACK_SOURCE_IGNORE_FILES "/\\\\.git/;/\\\\.vscode/;/\\\\build/;/\\\\builds/")
 
 include(CPack)
 
