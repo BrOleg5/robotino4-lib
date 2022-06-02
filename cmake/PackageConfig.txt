@@ -1,0 +1,6 @@
+# Source: https://stackoverflow.com/questions/30937317/cpack-cmake-different-installation-prefixes-per-cpack-generator
+if(CPACK_GENERATOR MATCHES "DEB")
+    set(CPACK_PACKAGING_INSTALL_PREFIX "/opt/${CPACK_PACKAGE_NAME}")
+elseif(CPACK_GENERATOR MATCHES "TGZ")
+    set(CPACK_PACKAGING_INSTALL_PREFIX "")
+endif()

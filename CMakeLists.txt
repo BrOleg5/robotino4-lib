@@ -51,8 +51,7 @@ set(CPACK_PACKAGE_VERSION_PATCH "${ROBOTINO4WRAPPER_PATCH_VERSION}")
 if(NOT WIN32)
         set(CPACK_DEBIAN_PACKAGE_MAINTAINER "oleg.brylyov@mail.ru")
         set(CPACK_DEBIAN_PACKAGE_DEPENDS "robotino-api2 (>= 1.1.14), robotino-dev (>= 1.0.3)")
-
-        set(CPACK_PACKAGING_INSTALL_PREFIX "/opt/robotino4wrapper")        
+        set(CPACK_PROJECT_CONFIG_FILE "${CMAKE_SOURCE_DIR}/cmake/PackageConfig.txt")
 endif(NOT WIN32)
 
 if(WIN32)
