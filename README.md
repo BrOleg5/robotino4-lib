@@ -10,9 +10,7 @@ There is Festo [Robotino API2](https://wiki.openrobotino.org/index.php?title=API
 
 ## Configure, build and install library
 
-### Ubuntu 20.04
-
-```
+```bash
 # Create build directory
 mkdir build/
 
@@ -23,42 +21,24 @@ cmake -S robotino4-lib/ -B build/
 cmake --build build/ --config <cfg>
 
 # Install certain configuration <cfg>: Debug (default), Release
-# <prefix> is installation path (default /usr/local)
+# <prefix> is installation path
 sudo cmake --install build/ --config <cfg> --prefix <prefix>
-```
-
-### Windows 10
-
-#### x64
-
-```
-# Create build directory
-mkdir .\build\
-
-# Configure. Build system generator <generator-name>: for MSVC 19 (Visual Studio 2017) is "Visual Studio 15 Win64".
-# Command "cmake --help" print full lust of generators that are available on your platform
-cmake -S .\robotino4-lib\ -B .\build\ -G <generator-name>
-
-# Build certain configuration <cfg>: Debug (default), Release
-cmake --build .\build\ --config <cfg>
-
-# Install certain library configuration <cfg>: Debug (default), Release
-# <prefix> is installation path (default SystemPartition:\Program Files (x86)\<project name>)
-cmake --install .\build\ --config <cfg> --prefix <prefix>
 ```
 
 ### Extra options
 
 You can build and install example programs. For this add option `-D BUILD_EXAMPLES=ON`.
-```
+
+```bash
 # Configure
-cmake -S .\robotino4-lib\ -B .\build\ -G <generator-name> -BUILD_EXAMPLES=ON
+cmake -S ./robotino4-lib/ -B ./build/ -BUILD_EXAMPLES=ON
 ```
 
-## Using Robotino4 with gcc and CMake
+## Using Robotino4 with CMake
 
 Add this strings in your CMakeLists.txt file:
-```
+
+```CMake
 find_package(Robotino4Wrapper 1.3.0 REQUIRED)
 target_link_libraries(<ProjectName> robotino4)
 # if nessesary, add include directories to target
