@@ -46,7 +46,7 @@ target_include_directories(robotino4 INTERFACE
                            $<INSTALL_INTERFACE:include>)
 
 install(TARGETS robotino4
-        EXPORT Robotino4WrapperTargets
+        EXPORT ${PROJECT_NAME}Targets
         ARCHIVE DESTINATION "${CMAKE_INSTALL_LIBDIR}" COMPONENT lib
         LIBRARY DESTINATION "${CMAKE_INSTALL_LIBDIR}" COMPONENT lib
         PUBLIC_HEADER DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}" COMPONENT lib)
