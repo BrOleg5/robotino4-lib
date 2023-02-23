@@ -1,5 +1,5 @@
-#ifndef ROBOTINO4_HPP
-#   define ROBOTINO4_HPP 
+#ifndef ROBOTINO4_LIB__ROBOTINO4_HPP_
+#define ROBOTINO4_LIB__ROBOTINO4_HPP_ 
 
 #include <iostream>
 #include <cmath>
@@ -7,10 +7,11 @@
 #include <stdexcept>
 #include "rec/robotino/api2/all.h"
 #include "rec/robotino/api2/OmniDriveModel.h"
+
 using namespace rec::robotino::api2;
 
 #ifndef PI
-#   define PI 3.14159265358979323846
+#define PI 3.14159265358979323846
 #endif
 
 /**
@@ -26,7 +27,6 @@ public:
      * This function is called on errors.
      * 
      * @param errorString a human readable error description.
-     * @throws noting
      * @remark This function is called from the thread in which Com::processEvents() is called.
      */
 	void errorEvent( const char* errorString );
@@ -34,7 +34,6 @@ public:
     /**
      * This function is called if a connection to Robotino has been established.
      * 
-     * @throws nothing
      * @remark This function is called from outside the applications main thread. 
      * This is extremely important particularly with regard to GUI applications.
      * This function is called from the thread in which Com::processEvents() is called.
@@ -44,7 +43,6 @@ public:
     /**
      * This function is called when a connection is closed.
      * 
-     * @throws nothing
      * @remark This function is called from outside the applications main thread.
      * This is extremely important particularly with regard to GUI applications.
      * This function is called from the thread in which Com::processEvents() is called.
@@ -56,7 +54,6 @@ public:
      * 
      * @param message the log message.
      * @param level the log level.
-     * @throws nothing.
      * @remark This function is called from outside the applications main thread.
      * This is extremely important particularly with regard to GUI applications.
      * This function is called from the thread in which Com::processEvents() is called.
@@ -79,49 +76,31 @@ class Robotino4
 {
 private:
 
-    /**
-     * Number of Robotino motors.
-     */
+    /// Number of Robotino motors.
     const size_t motor_num = 3;
 
-    /**
-     * Robotino comunication interface.
-     */
+    /// Robotino comunication interface.
     MyCom com;
 
-    /**
-     * Represents a Robotino motion drive.
-     */
+    /// Represents a Robotino motion drive.
     OmniDrive omniDrive;
 
-    /**
-     * Represents a Robotino kinematics model and parameters.
-     */
+    /// Represents a Robotino kinematics model and parameters.
     OmniDriveModel omniDriveModel;
 
-    /**
-     * Array of Robotino motors.
-     */
+    /// Array of Robotino motors.
     Motor motor[3];
 
-    /**
-     * Array of Robotino motors.
-     */
+    /// Array of Robotino motors.
     MotorArray motorArray;
 
-    /**
-     * Motor's velocity limit in rad/s.
-     */
+    /// Motor's velocity limit in rad/s.
     const float motor_vel_limit = 240;
 
-    /**
-     * Robot's linear speed limit in m/s.
-     */
+    /// Robot's linear speed limit in m/s.
     const float robot_lin_speed_limit = 0.8f;
 
-    /**
-     * Robot's angular velocity limit in rad/s.
-     */
+    /// Robot's angular velocity limit in rad/s.
     const float robot_vel_limit = (float) PI;
 
 public:
@@ -192,16 +171,16 @@ public:
      * Sets the setpoint speed of this motor.
      * 
      * @param num motor number.
-     * @param speed setpoint speed in rad/s.
-     * @throw Invalid argument.
+     * @param speed speed set-point in rad/s.
+     * @throw Invalid argument in case speed set-point great than speed limit.
      */
     void set_motor_speed(size_t num, float speed);
 
     /**
      * Sets the setpoint speed of all motors.
      * 
-     * @param speed speed setpoints for all motors in rad/s.
-     * @throw Invalid argument.
+     * @param speeds speed set-points for all motors in rad/s.
+     * @throw Invalid argument in case speed set-point great than speed limit.
      */
     void set_motors_speed(const std::vector<float>& speeds);
 
@@ -227,9 +206,11 @@ public:
      * @param kp proportional constant of the motor's speed PID controller.
      * @param ki integral constant of the motor's speed PID controller.
      * @param kd differential constant of the motor's speed PID controller.
-     * @remark These values are scaled by the microcontroller firmware to match with the PID controller implementation.
+     * @remark These values are scaled by the microcontroller firmware
+     * to match with the PID controller implementation.
      * If value is given, the microcontroller firmware uses its build in default value.
-     * Robotino v3 Parameters are floating point values used by the microcontroller directly. If parameter is less than 0 the default parameter is used.
+     * Robotino v3 Parameters are floating point values used by the microcontroller directly.
+     * If parameter is less than 0 the default parameter is used.
      */
     void set_motor_pid(size_t num, float kp, float ki, float kd);
 
@@ -239,9 +220,11 @@ public:
      * @param kp proportional constants of the motor' speed PID controllers.
      * @param ki integral constants of the motor' speed PID controllers.
      * @param kd differential constants of the motor' speed PID controllers.
-     * @remark These values are scaled by the microcontroller firmware to match with the PID controller implementation.
+     * @remark These values are scaled by the microcontroller firmware
+     * to match with the PID controller implementation.
      * If value is given, the microcontroller firmware uses its build in default value.
-     * Robotino v3 Parameters are floating point values used by the microcontroller directly. If parameter is less than 0 the default parameter is used.
+     * Robotino v3 Parameters are floating point values used by the microcontroller directly.
+     * If parameter is less than 0 the default parameter is used.
      */
     void set_motors_pid(const std::vector<float>& kp, const std::vector<float>& ki, const std::vector<float>& kd);
 
@@ -251,7 +234,7 @@ public:
      * @param vx speed along x axis of robot's local coordinate system in m/s.
      * @param vy speed along y axis of robot's local coordinate system in m/s.
      * @param omega angular velocity of rotation in rad/s.
-     * @throw Invalid argument.
+     * @throw Invalid argument in case speed set-point great than speed limit.
      * @remark This function is thread save. It should be called about every 100ms.
      */
     void set_robot_speed(float vx, float vy, float omega);
@@ -266,4 +249,4 @@ public:
     std::vector<float> robot_speed_to_motor_speeds(float vx, float vy, float omega);
 };
 
-#endif
+#endif  // ROBOTINO4_LIB__ROBOTINO4_HPP_

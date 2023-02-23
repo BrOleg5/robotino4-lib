@@ -8,6 +8,10 @@ There is Festo [Robotino API2](https://wiki.openrobotino.org/index.php?title=API
 - Robotino API2 v1.1.14 or later
 - compiler: gcc 9.3.0 or later; MSVC 19 (Visual Studio 2017) or later
 
+Optional:
+
+- Doxygen v1.8.0 or later
+
 ## Configure, build and install library
 
 ```bash
@@ -27,11 +31,19 @@ sudo cmake --install build/ --config <cfg> --prefix <prefix>
 
 ### Extra options
 
-You can build and install example programs. For this add option `-D BUILD_EXAMPLES=ON`.
+You can build and install example programs. For this add option `-D BUILD_EXAMPLE=ON`.
 
 ```bash
 # Configure
-cmake -S ./robotino4-lib/ -B ./build/ -BUILD_EXAMPLES=ON
+cmake -S ./robotino4-lib/ -B ./build/ -BUILD_EXAMPLE=ON
+```
+
+To build Doxygen documentation, use `BUILD_DOC` option, `doxygen` target and `Release` configuration
+
+```bash
+cmake -S robotino4-lib/ -B build/ -D BUILD_DOC=ON
+cmake --build build --config Release --target doxygen
+cmake --install build --config Release --target doxygen --prefix <prefix>
 ```
 
 ## Using Robotino4 with CMake

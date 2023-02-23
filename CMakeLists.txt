@@ -1,20 +1,25 @@
-cmake_minimum_required(VERSION 3.0)
+cmake_minimum_required(VERSION 3.9)
 
 set(ROBOTINO4WRAPPER_MAJOR_VERSION 1)
-set(ROBOTINO4WRAPPER_MINOR_VERSION 4)
-set(ROBOTINO4WRAPPER_PATCH_VERSION 3)
+set(ROBOTINO4WRAPPER_MINOR_VERSION 5)
+set(ROBOTINO4WRAPPER_PATCH_VERSION 0)
 set(ROBOTINO4WRAPPER_VERSION ${ROBOTINO4WRAPPER_MAJOR_VERSION}.${ROBOTINO4WRAPPER_MINOR_VERSION}.${ROBOTINO4WRAPPER_PATCH_VERSION})
 
 project(Robotino4Wrapper VERSION ${ROBOTINO4WRAPPER_VERSION} DESCRIPTION "Wrapper for library of Festo Robotino 4")
 
 include(GNUInstallDirs)
 
-option(BUILD_EXAMPLES "Build examples." OFF)
+option(BUILD_EXAMPLE "Build examples." OFF)
+option(BUILD_DOC "Build documentation" OFF)
 
 add_subdirectory(src)
 
-if(BUILD_EXAMPLES)
+if(BUILD_EXAMPLE)
         add_subdirectory(examples)
+endif()
+
+if(BUILD_DOC)
+        add_subdirectory(doc)
 endif()
 
 # Install the export set for use with the install-tree
@@ -46,6 +51,7 @@ include(InstallRequiredSystemLibraries)
 set(CPACK_PACKAGE_VERSION_MAJOR "${ROBOTINO4WRAPPER_MAJOR_VERSION}")
 set(CPACK_PACKAGE_VERSION_MINOR "${ROBOTINO4WRAPPER_MINOR_VERSION}")
 set(CPACK_PACKAGE_VERSION_PATCH "${ROBOTINO4WRAPPER_PATCH_VERSION}")
+set(CPACK_RESOURCE_FILE_LICENSE "${PROJECT_SOURCE_DIR}/LICENSE")
 
 if(NOT WIN32)
         set(CPACK_DEBIAN_PACKAGE_MAINTAINER "oleg.brylyov@mail.ru")
@@ -65,3 +71,4 @@ include(CPack)
 cpack_add_component(lib DISPLAY_NAME "Library"
                     REQUIRED)
 cpack_add_component(examples DISPLAY_NAME "Examples")
+cpack_add_component(documentation DISPLAY_NAME "Documentation")
